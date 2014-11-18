@@ -7,8 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C89AE2C61A11D84400171DC9 /* cine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C89AE2C41A11D84400171DC9 /* cine.cpp */; };
+		C89AE2C91A1447DC00171DC9 /* persona.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C89AE2C71A1447DC00171DC9 /* persona.cpp */; };
 		C8A6689A1A0AF60E0075AB5C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8A668991A0AF60E0075AB5C /* main.cpp */; };
 		C8A6689C1A0AF60E0075AB5C /* peliculas.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C8A6689B1A0AF60E0075AB5C /* peliculas.1 */; };
+		C8A668A41A0AF7CF0075AB5C /* pelicula.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8A668A21A0AF7CF0075AB5C /* pelicula.cpp */; };
+		C8A668B01A0B3A5A0075AB5C /* critica.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8A668AE1A0B3A5A0075AB5C /* critica.cpp */; };
+		C8A668B31A0B3CDF0075AB5C /* usuario.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8A668B11A0B3CDF0075AB5C /* usuario.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,9 +30,25 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C89AE2C41A11D84400171DC9 /* cine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cine.cpp; sourceTree = "<group>"; };
+		C89AE2C51A11D84400171DC9 /* cine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cine.h; sourceTree = "<group>"; };
+		C89AE2C71A1447DC00171DC9 /* persona.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = persona.cpp; sourceTree = "<group>"; };
+		C89AE2C81A1447DC00171DC9 /* persona.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = persona.h; sourceTree = "<group>"; };
+		C89AE2CA1A192C7B00171DC9 /* grafo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = grafo.h; sourceTree = "<group>"; };
+		C89AE2CB1A192C9800171DC9 /* nodoV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nodoV.h; sourceTree = "<group>"; };
+		C89AE2CC1A192CB500171DC9 /* nodoA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nodoA.h; sourceTree = "<group>"; };
 		C8A668961A0AF60E0075AB5C /* peliculas */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = peliculas; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8A668991A0AF60E0075AB5C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C8A6689B1A0AF60E0075AB5C /* peliculas.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = peliculas.1; sourceTree = "<group>"; };
+		C8A668A21A0AF7CF0075AB5C /* pelicula.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pelicula.cpp; sourceTree = "<group>"; };
+		C8A668A31A0AF7CF0075AB5C /* pelicula.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pelicula.h; sourceTree = "<group>"; };
+		C8A668A51A0AF88D0075AB5C /* nodo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = nodo.h; path = peliculas/nodo.h; sourceTree = "<group>"; };
+		C8A668A61A0AF8BB0075AB5C /* listaEnlazada.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = listaEnlazada.h; path = peliculas/listaEnlazada.h; sourceTree = "<group>"; };
+		C8A668AA1A0B30ED0075AB5C /* listaEnlazadaOrdenada.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = listaEnlazadaOrdenada.h; path = peliculas/listaEnlazadaOrdenada.h; sourceTree = "<group>"; };
+		C8A668AE1A0B3A5A0075AB5C /* critica.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = critica.cpp; sourceTree = "<group>"; };
+		C8A668AF1A0B3A5A0075AB5C /* critica.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = critica.h; sourceTree = "<group>"; };
+		C8A668B11A0B3CDF0075AB5C /* usuario.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = usuario.cpp; sourceTree = "<group>"; };
+		C8A668B21A0B3CDF0075AB5C /* usuario.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = usuario.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +65,12 @@
 		C8A6688D1A0AF60E0075AB5C = {
 			isa = PBXGroup;
 			children = (
+				C89AE2CA1A192C7B00171DC9 /* grafo.h */,
+				C89AE2CC1A192CB500171DC9 /* nodoA.h */,
+				C8A668A61A0AF8BB0075AB5C /* listaEnlazada.h */,
+				C89AE2CB1A192C9800171DC9 /* nodoV.h */,
+				C8A668AA1A0B30ED0075AB5C /* listaEnlazadaOrdenada.h */,
+				C8A668A51A0AF88D0075AB5C /* nodo.h */,
 				C8A668981A0AF60E0075AB5C /* peliculas */,
 				C8A668971A0AF60E0075AB5C /* Products */,
 			);
@@ -61,6 +88,16 @@
 			isa = PBXGroup;
 			children = (
 				C8A668991A0AF60E0075AB5C /* main.cpp */,
+				C8A668A21A0AF7CF0075AB5C /* pelicula.cpp */,
+				C89AE2C41A11D84400171DC9 /* cine.cpp */,
+				C89AE2C51A11D84400171DC9 /* cine.h */,
+				C8A668B11A0B3CDF0075AB5C /* usuario.cpp */,
+				C8A668B21A0B3CDF0075AB5C /* usuario.h */,
+				C8A668A31A0AF7CF0075AB5C /* pelicula.h */,
+				C89AE2C71A1447DC00171DC9 /* persona.cpp */,
+				C89AE2C81A1447DC00171DC9 /* persona.h */,
+				C8A668AE1A0B3A5A0075AB5C /* critica.cpp */,
+				C8A668AF1A0B3A5A0075AB5C /* critica.h */,
 				C8A6689B1A0AF60E0075AB5C /* peliculas.1 */,
 			);
 			path = peliculas;
@@ -117,7 +154,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8A668B01A0B3A5A0075AB5C /* critica.cpp in Sources */,
+				C8A668B31A0B3CDF0075AB5C /* usuario.cpp in Sources */,
+				C8A668A41A0AF7CF0075AB5C /* pelicula.cpp in Sources */,
+				C89AE2C91A1447DC00171DC9 /* persona.cpp in Sources */,
 				C8A6689A1A0AF60E0075AB5C /* main.cpp in Sources */,
+				C89AE2C61A11D84400171DC9 /* cine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +269,7 @@
 				C8A668A11A0AF60E0075AB5C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
