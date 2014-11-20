@@ -11,9 +11,10 @@ class Critica {
     Usuario* usuario;
     Pelicula* pelicula;
     std::string texto;
-    int puntuacion;
+    int puntuacion = 0;
 public:
     Critica();
+    Critica(Usuario* usuario, Pelicula* pelicula, std::string texto);
     Critica(Usuario* usuario, Pelicula* pelicula, std::string texto, int puntuacion);
     
     Pelicula* getPelicula();
@@ -22,6 +23,8 @@ public:
     static int pedirPuntuacion();
     
     int getPuntuacion();
+    
+    void imprimirRecomendacion();
     friend std::ostream& operator<<(std::ostream& os, Critica &critica);
 };
 

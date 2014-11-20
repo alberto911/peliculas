@@ -16,17 +16,19 @@ class Cine {
     std::map<std::string, Persona*> *directores;
     Grafo<Usuario*, int> *usuarios;
     
-    Usuario* buscarUsuario(std::string &username, std::string &password);
     Critica* buscarCritica(Usuario*, Pelicula*);
-
+    bool confirmacion(std::string);
+    
 public:
     Cine();
     ~Cine();
     
     Pelicula* agregarPelicula();
+    Pelicula* agregarPelicula(std::string, std::string, std::string, std::string, std::string);
     Persona* agregarPersona(std::map<std::string, Persona*> *, std::string);
     void agregarUsuario();
     void agregarActor(Pelicula*);
+    void agregarActor(std::string nombre, Pelicula *pelicula);
     void eliminarActor(Pelicula*);
     
     Pelicula* editarPelicula(Pelicula*);
@@ -41,6 +43,15 @@ public:
     void editarCritica(Usuario*, Pelicula* = nullptr);
     void eliminarCritica(Usuario*, Pelicula* = nullptr);
     
+    void agregarSolicitud(Usuario*);
+    void responderSolicitud(Usuario*);
+    bool sonAmigos(Usuario*, Usuario*);
+    
+    Critica* crearRecomendacion(Usuario*, Pelicula*);
+    void recomendarAAmigo(Usuario*, Pelicula* = nullptr);
+    void recomendarATodos(Usuario*, Pelicula* = nullptr);
+    void verRecomedaciones(Usuario*);
+    
     std::map<std::string, Pelicula*>* getPeliculas();
     std::map<std::string, Persona*>* getDirectores();
     std::map<std::string, Persona*>* getActores();
@@ -54,6 +65,10 @@ public:
     std::vector<Pelicula*> obtenerRanking(std::function<std::string(Pelicula*)> = nullptr, std::string = "", std::string = "");
     std::vector<Persona*> rankingPersona(std::map<std::string, Persona*> *, std::string);
     void filtroPeliculas(std::function<std::string(Pelicula*)>, std::string, std::string = "");
+    Usuario* buscarUsuario(std::string &username);
+    
+    int importarArchivo(bool (Cine::*agregar)(std::vector<std::string>));
+    bool vectorAPelicula(std::vector<std::string> tokens);
 };
 
 template <class T>

@@ -37,6 +37,8 @@
 		C89AE2CA1A192C7B00171DC9 /* grafo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = grafo.h; sourceTree = "<group>"; };
 		C89AE2CB1A192C9800171DC9 /* nodoV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nodoV.h; sourceTree = "<group>"; };
 		C89AE2CC1A192CB500171DC9 /* nodoA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nodoA.h; sourceTree = "<group>"; };
+		C89AE2E91A1C640000171DC9 /* cola.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cola.h; sourceTree = "<group>"; };
+		C89AE2EA1A1D640E00171DC9 /* pila.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pila.h; sourceTree = "<group>"; };
 		C8A668961A0AF60E0075AB5C /* peliculas */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = peliculas; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8A668991A0AF60E0075AB5C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C8A6689B1A0AF60E0075AB5C /* peliculas.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = peliculas.1; sourceTree = "<group>"; };
@@ -67,6 +69,8 @@
 			children = (
 				C89AE2CA1A192C7B00171DC9 /* grafo.h */,
 				C89AE2CC1A192CB500171DC9 /* nodoA.h */,
+				C89AE2EA1A1D640E00171DC9 /* pila.h */,
+				C89AE2E91A1C640000171DC9 /* cola.h */,
 				C8A668A61A0AF8BB0075AB5C /* listaEnlazada.h */,
 				C89AE2CB1A192C9800171DC9 /* nodoV.h */,
 				C8A668AA1A0B30ED0075AB5C /* listaEnlazadaOrdenada.h */,

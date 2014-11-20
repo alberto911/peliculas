@@ -1,0 +1,3 @@
+﻿título,director,fecha,país,género
+Birdman,Alejandro González Iñárritu,13/11/2014,Estados Unidos,Drama
+Interstellar,Christopher Nolan,07/11/2014,Estados Unidos,Scifi

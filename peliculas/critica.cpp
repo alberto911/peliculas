@@ -5,8 +5,11 @@ Critica::Critica() {
 }
 
 Critica::Critica(Usuario* usuario, Pelicula* pelicula, std::string texto, int puntuacion)
-: usuario(usuario), pelicula(pelicula), texto(texto), puntuacion(puntuacion) {
-}
+: usuario(usuario), pelicula(pelicula), texto(texto), puntuacion(puntuacion) { }
+
+Critica::Critica(Usuario* usuario, Pelicula* pelicula, std::string texto)
+: usuario(usuario), pelicula(pelicula), texto(texto) { }
+
 
 int Critica::getPuntuacion() {
     return puntuacion;
@@ -34,6 +37,12 @@ int Critica::pedirPuntuacion() {
     }
     std::cin.ignore();
     return puntuacion;
+}
+
+void Critica::imprimirRecomendacion() {
+    cout << "** Recomendación de " << *usuario <<  " **"  << endl;
+    cout << "Película: " << pelicula->getTitulo() << " " << *pelicula << endl;
+    cout << texto << endl;
 }
 
 std::ostream& operator<<(std::ostream& os, Critica &critica) {

@@ -2,6 +2,8 @@
 #include "critica.h"
 #include <algorithm>
 #include <regex>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -34,10 +36,6 @@ Pelicula* Cine::agregarPelicula() {
     cout << "Director: ";
     getline(cin, nombreDirector);
     
-    if (!(*directores)[nombreDirector])
-        (*directores)[nombreDirector] = new Persona(nombreDirector);
-    Persona *director = (*directores)[nombreDirector];
-    
     do {
         cout << "Fecha de estreno (dd/mm/aaaa): ";
         getline(cin,fecha);
@@ -47,13 +45,23 @@ Pelicula* Cine::agregarPelicula() {
     getline(cin, pais);
     cout << "Género: ";
     getline(cin, genero);
+    
     if (!(*peliculas)[titulo]) {
-        Pelicula * p = new Pelicula(titulo, director, fecha, pais, genero);
-        (*peliculas)[titulo] = p;
-        director->agregarPelicula(p);
+        agregarPelicula(titulo, nombreDirector, fecha, pais, genero);
     }
     else
         cout << "La película ya existe" << endl;
+    return (*peliculas)[titulo];
+}
+
+Pelicula* Cine::agregarPelicula(string titulo, string nombreDirector, string fecha, string pais, string genero) {
+    if (!(*directores)[nombreDirector])
+        (*directores)[nombreDirector] = new Persona(nombreDirector);
+    Persona *director = (*directores)[nombreDirector];
+    
+    Pelicula * p = new Pelicula(titulo, director, fecha, pais, genero);
+    (*peliculas)[titulo] = p;
+    director->agregarPelicula(p);
     return (*peliculas)[titulo];
 }
 
@@ -74,11 +82,14 @@ Persona* Cine::agregarPersona(map<string, Persona *> *mapa, string texto) {
 
 void Cine::agregarUsuario() {
     string username, password;
-    Usuario* usuario = buscarUsuario(username, password);
+    Usuario* usuario = buscarUsuario(username);
     if (usuario)
         cout << "El usuario ya existe" << endl;
-    else
+    else {
+        cout << "Contraseña: ";
+        getline(cin, password);
         usuarios->insertarVertice(new Usuario(username, password));
+    }
 }
 
 void Cine::agregarActor(Pelicula *pelicula) {
@@ -86,12 +97,18 @@ void Cine::agregarActor(Pelicula *pelicula) {
     cout << "Actor: ";
     getline(cin, nombre);
     
+    agregarActor(nombre, pelicula);
+}
+
+void Cine::agregarActor(string nombre, Pelicula *pelicula) {
     if (!(*actores)[nombre])
         (*actores)[nombre] = new Persona(nombre);
     Persona* actor = (*actores)[nombre];
-    pelicula->agregarActor(actor);
-    actor->agregarPelicula(pelicula);
-    actor->calcularPuntuacion();
+    if (!pelicula->getActores()->search(actor)) {
+        pelicula->agregarActor(actor);
+        actor->agregarPelicula(pelicula);
+        actor->calcularPuntuacion();
+    }
 }
 
 void Cine::eliminarActor(Pelicula *pelicula) {
@@ -232,7 +249,9 @@ void Cine::eliminarActor() {
 
 Usuario* Cine::login() {
     string username, password;
-    Usuario *usuario = buscarUsuario(username, password);
+    Usuario *usuario = buscarUsuario(username);
+    cout << "Contraseña: ";
+    getline(cin, password);
     if (usuario) {
         if (usuario->validarPassword(password))
             return usuario;
@@ -325,6 +344,139 @@ void Cine::eliminarCritica(Usuario *usuario, Pelicula *pelicula) {
     cout << "No existe una crítica para esta película" << endl;
 }
 
+void Cine::agregarSolicitud(Usuario* usuario) {
+    string username;
+    Usuario *usuario2 = buscarUsuario(username);
+    bool solicitudExistente;
+    if (usuario2) {
+        if (sonAmigos(usuario, usuario2)) {
+            cout << "Ya son amigos" << endl;
+            return;
+        }
+        solicitudExistente = usuario2->haySolicitud(usuario);
+        if (!solicitudExistente) {
+            usuario2->agregarSolicitud(usuario);
+            cout << "Solicitud enviada" << endl;
+        }
+        else
+           cout << "Ya has enviado una solicitud de amistad" << endl;
+    }
+    else
+        cout << "El usuario no existe" << endl;
+}
+
+void Cine::responderSolicitud(Usuario *usuario) {
+    if (usuario->getSolicitudes()->empty()) {
+        cout << "No tienes solicitudes de amistad" << endl;
+        return;
+    }
+    
+    while (!usuario->getSolicitudes()->empty()) {
+        Usuario* usuario2 = usuario->getSolicitudes()->dequeue()->getInfo();
+        cout << "\nSolicitud de " << usuario2->getUsername() << endl;
+        
+        bool respuesta = confirmacion("Aceptar solicitud?");
+        if (respuesta) {
+            usuarios->inserarArista(0, usuarios->buscarVertice(usuario), usuarios->buscarVertice(usuario2));
+            usuarios->inserarArista(0, usuarios->buscarVertice(usuario2), usuarios->buscarVertice(usuario));
+            cout << "Amistad confirmada" << endl;
+        }
+        else
+            cout << "Amistad rechazada" << endl;
+    }
+    
+    cout << "\nNo tienes más solicitudes de amistad" << endl;
+}
+
+bool Cine::sonAmigos(Usuario *usuario, Usuario *usuario2) {
+    NodoA<int, Usuario*> *arista = usuarios->buscarVertice(usuario)->getAristas();
+    while (arista) {
+        if (arista->getDestino()->getInfo() == usuario2)
+            return true;
+        arista = arista->getNext();
+    }
+    return false;
+}
+
+Critica* Cine::crearRecomendacion(Usuario* usuario, Pelicula* pelicula) {
+    if (!pelicula)
+        pelicula = buscar(peliculas, "Película");
+    if (!pelicula) {
+        cout << "La película no existe" << endl;
+        return nullptr;
+    }
+    string texto;
+    cout << "Recomendación: ";
+    getline(cin, texto);
+    return new Critica(usuario, pelicula, texto);
+}
+
+void Cine::recomendarAAmigo(Usuario *usuario, Pelicula *pelicula) {
+    cout << "\n---- NUEVA RECOMENDACIÓN ----" << endl;
+    string username;
+    Usuario *amigo = buscarUsuario(username);
+    if (amigo) {
+        if (sonAmigos(usuario, amigo)) {
+            Critica *recomendacion = crearRecomendacion(usuario, pelicula);
+            if (recomendacion) {
+                amigo->agregarRecomendacion(recomendacion);
+                cout << "Recomendación enviada exitosamente" << endl;
+            }
+        }
+        else
+            cout << "El usuario no es tu amigo" << endl;
+    }
+    else
+        cout << "El usuario no existe" << endl;
+}
+
+void Cine::recomendarATodos(Usuario *usuario, Pelicula *pelicula) {
+    cout << "\n---- NUEVA RECOMENDACIÓN ----" << endl;
+    NodoA<int, Usuario*> *arista = usuarios->buscarVertice(usuario)->getAristas();
+    if (!arista) {
+        cout << "Aún no tienes amigos!" << endl;
+        return;
+    }
+    Critica *recomendacion = crearRecomendacion(usuario, pelicula);
+    if (recomendacion) {
+        while (arista) {
+            arista->getDestino()->getInfo()->agregarRecomendacion(recomendacion);
+            arista = arista->getNext();
+        }
+        cout << "Recomendación enviada exitosamente" << endl;
+    }
+}
+
+void Cine::verRecomedaciones(Usuario *usuario) {
+    Pila<Critica*> aux;
+    bool respuesta;
+    
+    cout << "\n---- RECOMENDACIONES ----" << endl;
+    if (usuario->getRecomendaciones()->empty()) {
+        cout << "No hay recomendaciones" << endl;
+        return;
+    }
+    
+    do {
+        int i = 0;
+        while (usuario->getRecomendaciones()->top() && i < 2) {
+            usuario->getRecomendaciones()->top()->getInfo()->imprimirRecomendacion();
+            cout << endl;
+            aux.push(usuario->getRecomendaciones()->pop()->getInfo());
+            ++i;
+        }
+        if (usuario->getRecomendaciones()->empty()) {
+            cout << "No hay más recomendaciones" << endl;
+            break;
+        }
+        
+        respuesta = confirmacion("Imprimir más recomendaciones?");
+    } while (respuesta);
+    
+    while (aux.top())
+        usuario->getRecomendaciones()->push(aux.pop()->getInfo());
+}
+
 map<string, Pelicula*> * Cine::getPeliculas() {
     return peliculas;
 }
@@ -402,11 +554,9 @@ vector<Persona*> Cine::rankingPersona(std::map<std::string, Persona*> *mapa, std
     return ranking;
 }
 
-Usuario* Cine::buscarUsuario(string &username, string &password) {
+Usuario* Cine::buscarUsuario(string &username) {
     cout << "Usuario: ";
     getline(cin, username);
-    cout << "Contraseña: ";
-    getline(cin, password);
     
     NodoV<Usuario*, int> *tmp = usuarios->inicio();
     while (tmp && tmp->getInfo()->getUsername() != username) {
@@ -426,4 +576,56 @@ Critica* Cine::buscarCritica(Usuario* usuario, Pelicula* pelicula) {
         }
     }
     return nullptr;
+}
+
+bool Cine::confirmacion(std::string texto) {
+    char respuesta;
+    cout << texto << " (y/n): ";
+    cin >> respuesta;
+    while (respuesta != 'y' && respuesta != 'n') {
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Respuesta no válida.\n" << texto << " (y/n): ";
+        cin >> respuesta;
+    }
+    cin.ignore();
+    
+    if (respuesta == 'y')
+        return true;
+    return false;
+}
+
+int Cine::importarArchivo(bool (Cine::*agregar)(vector<string>)) {
+    string nombre;
+    cout << "Nombre del archivo: ";
+    cin >> nombre;
+    
+    ifstream myfile(nombre);
+    
+    if (myfile.is_open()) {
+        int i = 0;
+        string linea, token;
+        while (getline(myfile, linea)) {
+            vector<string> tokens;
+            stringstream stream(linea);
+            while (getline(stream, token, ','))
+                tokens.push_back(token);
+            
+            if ((this->*agregar)(tokens))
+                ++i;
+        }
+        myfile.close();
+        return i;
+    }
+    
+    else
+        cout << "El archivo no se pudo abrir." << endl;
+    return 0;
+}
+
+bool Cine::vectorAPelicula(vector<string> tokens) {
+    if (tokens.size() == 5 && Pelicula::validarFecha(tokens[2]) && !(*peliculas)[tokens[0]]) {
+        agregarPelicula(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4]);
+        return true;
+    }
+    return false;
 }
